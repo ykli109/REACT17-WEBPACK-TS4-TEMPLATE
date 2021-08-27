@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>6.图标/7.通用/购物车</title>
+    <defs>
+        <filter color-interpolation-filters="auto" id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.031373 0 0 0 0 0.054902 0 0 0 0 0.101961 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="6.图标/7.通用/购物车" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="0.5" y="0.5" width="15" height="15"></rect>
+        <g filter="url(#filter-1)" id="编组-4" opacity="0.95">
+            <g transform="translate(1.200000, 2.000000)">
+                <path d="M0,0 L2.04955043,0 L2.23767446,1.47640309 L13.8418876,1.47740309 L11.557006,8.47740309 L2.12802067,8.47740309 L1.16867446,0.99940309 L0,1 L0,0 Z M12.4626745,2.47640309 L2.36667446,2.47640309 L3.00767446,7.47640309 L10.8316745,7.47640309 L12.4626745,2.47640309 Z" id="路径备份" fill="#000000" fill-rule="nonzero"></path>
+                <circle id="椭圆形备份-2" fill="#000000" fill-rule="nonzero" cx="3.97267446" cy="10.4774031" r="1"></circle>
+                <circle id="椭圆形备份-3" fill="#000000" fill-rule="nonzero" cx="9.97267446" cy="10.4774031" r="1"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

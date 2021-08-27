@@ -1,0 +1,18 @@
+# not for u
+Global:
+  tool: build_submitter
+Default:
+  profile: [build_production]
+Profiles:
+  - profile:
+    name: build_production
+    env: DECK_CENTOS7U5_K3
+    command: export CDN_TARGET=$CDN_TARGET && export AGILE_MODULE_NAME=$AGILE_MODULE_NAME && sh scripts/build.sh
+    release: true
+    check:
+      - reuse: TASK
+        enable: false
+    cache:
+      enable: true
+      paths:
+        - node_modules
