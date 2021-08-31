@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const {whenDev, whenProd} = require('@craco/craco');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const lessModifyVars = require('./src/common/css/lessVariables');
 
 const {CDN_PREFIX} = process.env;
 
@@ -39,7 +40,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(jsx|tsx)$/i,
+                test: /\.(jsx|tsx|ts)$/i,
                 use: ['babel-loader'],
                 exclude: /node_modules/,
             },
@@ -53,22 +54,42 @@ module.exports = {
             {
                 test: /\.module\.less$/,
                 exclude: /node_modules/,
-                use: ['style-loader', {
-                    loader: 'css-loader',
-                    options: {
-                        modules: {
-                            localIdentName: whenProd(() => '[local]_[hash:base64:5]', '[path]_[local]'),
+                use: [
+                    'style-loader', 
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName: whenProd(() => '[local]_[hash:base64:5]', '[path]_[local]'),
+                            },
                         },
                     },
-                }, 'less-loader'],
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                                modifyVars: lessModifyVars,
+                            },
+                        },
+                    },
+                ],
             },
             {
                 test: /\.less$/i,
-                exclude: /(\.module\.less$)|(node_modules)/i,
+                exclude: /\.module\.less$/i,
                 use: [
                     'style-loader',
                     'css-loader',
-                    'less-loader',
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                                modifyVars: lessModifyVars,
+                            },
+                        },
+                    },
                 ],
             },
             {
