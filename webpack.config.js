@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const {whenDev, whenProd} = require('@craco/craco');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 const lessModifyVars = require('./src/common/css/lessVariables');
 
 const {CDN_PREFIX} = process.env;
@@ -95,6 +96,13 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|jpeg|gif)$/i,
                 type: 'asset/resource',
+            },
+            {
+                test: /\.svg$/i,
+                type: 'asset/inline',
+                generator: {
+                    dataUrl: content => svgToMiniDataURI(content.toString()),
+                },
             },
             ...whenDev(() => [
                 {
