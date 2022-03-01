@@ -1,11 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const {whenDev, whenProd} = require('@craco/craco');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtraPlugin = require('mini-css-extract-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
 const lessModifyVars = require('./src/common/css/lessVariables');
 
-const {CDN_PREFIX} = process.env;
+const {CDN_PREFIX, MODE} = process.env;
+const whenAnalysis = (fn, defaultValue) => (MODE === 'analysis' ? fn() : defaultValue);
 
 module.exports = {
     entry: './src/index.tsx',
@@ -37,18 +40,23 @@ module.exports = {
                 }),
             ];
         }, []),
+        ...whenAnalyzer(() => {
+            return [
+                new BundleAnalyzerPlugin(),
+            ]
+        }, []),
     ],
     module: {
         rules: [
             {
-                test: /\.(jsx|tsx|ts)$/i,
+                test: /\.(jsx|tsx|ts|js)$/i,
                 use: ['babel-loader'],
                 exclude: /node_modules/,
             },
             {
                 test: /\.css$/i,
                 use: [
-                    'style-loader',
+                    whenDev(() => 'style-loader', MiniCssExtractPlugin.loader),
                     'css-loader',
                 ],
             },
@@ -56,7 +64,7 @@ module.exports = {
                 test: /\.module\.less$/,
                 exclude: /node_modules/,
                 use: [
-                    'style-loader', 
+                    whenDev(() => 'style-loader', MiniCssExtractPlugin.loader),
                     {
                         loader: 'css-loader',
                         options: {
@@ -80,7 +88,7 @@ module.exports = {
                 test: /\.less$/i,
                 exclude: /\.module\.less$/i,
                 use: [
-                    'style-loader',
+                    whenDev(() => 'style-loader', MiniCssExtractPlugin.loader),
                     'css-loader',
                     {
                         loader: 'less-loader',
@@ -104,12 +112,6 @@ module.exports = {
                     dataUrl: content => svgToMiniDataURI(content.toString()),
                 },
             },
-            ...whenDev(() => [
-                {
-                    test: /.html$/i,
-                    loader: 'html-loader',
-                },
-            ], []),
         ],
     },
     devServer: {
